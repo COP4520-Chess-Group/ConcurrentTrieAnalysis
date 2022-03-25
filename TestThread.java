@@ -16,8 +16,14 @@ public class TestThread extends Thread
                     s = new StringWrapper(str);
                     if (cmdType.compareTo("ADD") == 0)
                     {
-                        Tester.t.add(s);
-                        System.out.println(this.getName() + " added " + str);
+                        if (Tester.t.add(s))
+                        {
+                            System.out.println(this.getName() + " added " + str);
+                        }
+                        else
+                        {
+                            System.out.println(this.getName() + " failed to add " + str);
+                        }
                     }
                     else if (cmdType.compareTo("CONTAINS") == 0)
                     {
@@ -32,8 +38,14 @@ public class TestThread extends Thread
                     }
                     else if (cmdType.compareTo("REMOVE") == 0)
                     {
-                        Tester.t.remove(s);
-                        System.out.println(this.getName() + " removed " + str);
+                        if (Tester.t.remove(s))
+                        {
+                            System.out.println(this.getName() + " removed " + str);
+                        }
+                        else
+                        {
+                            System.out.println(this.getName() + " failed to remove " + str);
+                        }
                     }
                 }
             } finally {
