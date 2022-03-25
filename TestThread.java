@@ -16,14 +16,8 @@ public class TestThread extends Thread
                     s = new StringWrapper(str);
                     if (cmdType.compareTo("ADD") == 0)
                     {
-                        if (Tester.t.add(s))
-                        {
-                            System.out.println(this.getName() + " added " + str);
-                        }
-                        else
-                        {
-                            System.out.println(this.getName() + " failed to add " + str);
-                        }
+                        Tester.t.add(s);
+                        System.out.println(this.getName() + " added " + str);
                     }
                     else if (cmdType.compareTo("CONTAINS") == 0)
                     {
