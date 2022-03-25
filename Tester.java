@@ -9,10 +9,11 @@ public class Tester
 {
     public static ConcurrentTrie<Character, StringWrapper> t = new ConcurrentTrie();
     public static ConcurrentSkipListSet<String> s = new ConcurrentSkipListSet<>();
+    public static boolean reporting = false;
     public static void main(String [] args) throws IOException, InterruptedException
     {
         int threadCount;
-        BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("studyInScarlet.txt"));
         try{
             threadCount = Integer.parseInt(br.readLine());
             String files[] = new String[threadCount];
@@ -34,7 +35,7 @@ public class Tester
             }
             long stopTime = System.nanoTime();
             double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("Execution Time: " + seconds + " seconds");
+            System.out.println("ConcurrentTrie Execution Time: " + seconds + " seconds");
         } finally {
             br.close();
         }
@@ -61,7 +62,7 @@ public class Tester
             }
             long stopTime = System.nanoTime();
             double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("Execution Time: " + seconds + " seconds");
+            System.out.println("ConcurrentSkipListSet Execution Time: " + seconds + " seconds");
         } finally {
             br.close();
         }

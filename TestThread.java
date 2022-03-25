@@ -24,28 +24,28 @@ public class TestThread extends Thread
                     if (cmdType.compareTo("ADD") == 0)
                     {
                         Tester.t.add(words[word]);
-                        System.out.println(this.getName() + " added " + wordBank[word]);
+                        if (Tester.reporting) { System.out.println(this.getName() + " added " + wordBank[word]); }
                     }
                     else if (cmdType.compareTo("CONTAINS") == 0)
                     {
                         if (Tester.t.contains(words[word]))
                         {
-                            System.out.println(this.getName() + " found that contains " + wordBank[word] + " is true");
+                            if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is true"); }
                         }
                         else
                         {
-                            System.out.println(this.getName() + " found that contains " + wordBank[word] + " is false"); 
+                            if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is false"); }
                         }
                     }
                     else if (cmdType.compareTo("REMOVE") == 0)
                     {
                         if (Tester.t.remove(words[word]))
                         {
-                            System.out.println(this.getName() + " removed " + wordBank[word]);
+                            if (Tester.reporting) { System.out.println(this.getName() + " removed " + wordBank[word]); }
                         }
                         else
                         {
-                            System.out.println(this.getName() + " failed to remove " + wordBank[word]);
+                            if (Tester.reporting) { System.out.println(this.getName() + " failed to remove " + wordBank[word]); }
                         }
                     }
                 }
