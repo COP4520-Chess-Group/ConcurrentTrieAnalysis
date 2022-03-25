@@ -40,7 +40,7 @@ public class Tester
             br.close();
         }
 
-        br = new BufferedReader(new FileReader("test.txt"));
+        br = new BufferedReader(new FileReader("studyInScarlet.txt"));
         try{
             threadCount = Integer.parseInt(br.readLine());
             String files[] = new String[threadCount];
