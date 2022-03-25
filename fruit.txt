@@ -1,0 +1,11 @@
+5
+ADD
+apple
+CONTAINS
+apple
+CONTAINS
+apples
+REMOVE
+apple
+CONTAINS
+apple
