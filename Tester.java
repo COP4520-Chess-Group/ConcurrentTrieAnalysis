@@ -2,6 +2,7 @@ import java.io.FileReader;
 import java.nio.BufferOverflowException;
 import collection.ConcurrentTrie;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicLong;
 
 import java.io.*;
 
@@ -10,6 +11,9 @@ public class Tester
     public static ConcurrentTrie<Character, StringWrapper> t = new ConcurrentTrie();
     public static ConcurrentSkipListSet<String> s = new ConcurrentSkipListSet<>();
     public static boolean reporting = false;
+    public static AtomicLong addTime = new AtomicLong(0);
+    public static AtomicLong containsTime = new AtomicLong(0);
+    public static AtomicLong removeTime = new AtomicLong(0);
     public static void main(String [] args) throws IOException, InterruptedException
     {
         int threadCount;
@@ -35,7 +39,17 @@ public class Tester
             }
             long stopTime = System.nanoTime();
             double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("ConcurrentTrie Execution Time: " + seconds + " seconds");
+            System.out.println("ConcurrentTrie Execution: ");
+            System.out.println("Total Time Elapsed: " + seconds);
+            seconds = addTime.get() / 1_000_000_000.0;
+            System.out.println("Time Adding: " + seconds);
+            seconds = containsTime.get() / 1_000_000_000.0;
+            System.out.println("Time Contains: " + seconds);
+            seconds = removeTime.get() / 1_000_000_000.0;
+            System.out.println("Time Removing: " + seconds);
+            addTime.set(0);
+            containsTime.set(0);
+            removeTime.set(0);
         } finally {
             br.close();
         }
@@ -62,7 +76,14 @@ public class Tester
             }
             long stopTime = System.nanoTime();
             double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("ConcurrentSkipListSet Execution Time: " + seconds + " seconds");
+            System.out.println("ConcurrentSkipListSet Execution: ");
+            System.out.println("Total Time Elapsed: " + seconds);
+            seconds = addTime.get() / 1_000_000_000.0;
+            System.out.println("Time Adding: " + seconds);
+            seconds = containsTime.get() / 1_000_000_000.0;
+            System.out.println("Time Contains: " + seconds);
+            seconds = removeTime.get() / 1_000_000_000.0;
+            System.out.println("Time Removing: " + seconds);
         } finally {
             br.close();
         }

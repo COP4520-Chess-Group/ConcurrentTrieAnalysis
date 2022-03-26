@@ -11,6 +11,7 @@ public class TestThread extends Thread
                 String cmdType;
                 String success;
                 boolean s = true, actualS = true;
+                long start;
                 int word;
                 String wordBank[] = new String[wordCount];
                 StringWrapper words[] = new StringWrapper[wordCount];
@@ -37,11 +38,14 @@ public class TestThread extends Thread
                     }
                     if (cmdType.compareTo("ADD") == 0)
                     {
+                        start = System.nanoTime();
                         Tester.t.add(words[word]);
+                        Tester.addTime.addAndGet(System.nanoTime() - start);
                         if (Tester.reporting) { System.out.println(this.getName() + " added " + wordBank[word]); }
                     }
                     else if (cmdType.compareTo("CONTAINS") == 0)
                     {
+                        start = System.nanoTime();
                         if (Tester.t.contains(words[word]))
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is true"); }
@@ -53,9 +57,11 @@ public class TestThread extends Thread
                             if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is false"); }
                             actualS = false;
                         }
+                        Tester.containsTime.addAndGet(System.nanoTime() - start);
                     }
                     else if (cmdType.compareTo("REMOVE") == 0)
                     {
+                        start = System.nanoTime();
                         if (Tester.t.remove(words[word]))
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " removed " + wordBank[word]); }
@@ -66,6 +72,7 @@ public class TestThread extends Thread
                             if (Tester.reporting) { System.out.println(this.getName() + " failed to remove " + wordBank[word]); }
                             actualS = false;
                         }
+                        Tester.removeTime.addAndGet(System.nanoTime() - start);
                     }
                     if (Tester.reporting && cmdType.compareTo("ADD") != 0 && s != actualS)
                     {
