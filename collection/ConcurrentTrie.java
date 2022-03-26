@@ -63,7 +63,7 @@ public class ConcurrentTrie<K, V extends Iterable<K>> {
                     return false;
                 children = current.getChildren();
                 synchronized (children) {
-                    if (children.get(childKey).getValue() != null) {
+                    if (children.get(childKey) != null && children.get(childKey).getValue() != null) {
                         ConcurrentTrieNode<K, V> child = children.get(childKey);
                         if (child.getValue().equals(o) && child.isEnd()) {
                             if (child.getChildren().isEmpty()) {
