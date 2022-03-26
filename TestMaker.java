@@ -151,7 +151,7 @@ public class TestMaker
         containFail(perms, struct, 3, cmds);
         removeSuccess(perms, struct, 3, cmds);
         removeFail(perms, struct, 3, cmds);
-        System.out.println(cmds.size());
+        System.out.println(5+3+3+3+3);
         System.out.println(perms.size());
         for (int i = 0; i < perms.size(); i++)
         {

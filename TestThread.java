@@ -9,6 +9,8 @@ public class TestThread extends Thread
                 int commands = Integer.parseInt(br.readLine());
                 int wordCount = Integer.parseInt(br.readLine());
                 String cmdType;
+                String success;
+                boolean s = true, actualS = true;
                 int word;
                 String wordBank[] = new String[wordCount];
                 StringWrapper words[] = new StringWrapper[wordCount];
@@ -21,6 +23,18 @@ public class TestThread extends Thread
                 {
                     cmdType = br.readLine();
                     word = Integer.parseInt(br.readLine());
+                    if (cmdType.compareTo("ADD") != 0)
+                    {
+                        success = br.readLine();
+                        if (success.compareTo("TRUE") == 0)
+                        {
+                            s = true;
+                        }
+                        else
+                        {
+                            s = false;
+                        }
+                    }
                     if (cmdType.compareTo("ADD") == 0)
                     {
                         Tester.t.add(words[word]);
@@ -31,10 +45,13 @@ public class TestThread extends Thread
                         if (Tester.t.contains(words[word]))
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is true"); }
+                            actualS = true;
+
                         }
                         else
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " found that contains " + wordBank[word] + " is false"); }
+                            actualS = false;
                         }
                     }
                     else if (cmdType.compareTo("REMOVE") == 0)
@@ -42,11 +59,17 @@ public class TestThread extends Thread
                         if (Tester.t.remove(words[word]))
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " removed " + wordBank[word]); }
+                            actualS = true;
                         }
                         else
                         {
                             if (Tester.reporting) { System.out.println(this.getName() + " failed to remove " + wordBank[word]); }
+                            actualS = false;
                         }
+                    }
+                    if (cmdType.compareTo("ADD") != 0 && s != actualS)
+                    {
+                        System.out.println("Error");
                     }
                 }
             } finally {
