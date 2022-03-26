@@ -143,23 +143,67 @@ public class TestMaker
 
     public static void main(String[] args)
     {
-        HashSet<String> perms = permutations(10);
+        int testCase = 1;
         HashSet<String> struct = new HashSet<String>();
         ArrayList<String> cmds = new ArrayList<String>();
-        add(perms, struct, 5, cmds);
-        containSuccess(perms, struct, 3, cmds);
-        containFail(perms, struct, 3, cmds);
-        removeSuccess(perms, struct, 3, cmds);
-        removeFail(perms, struct, 3, cmds);
-        System.out.println(5+3+3+3+3);
-        System.out.println(perms.size());
-        for (int i = 0; i < perms.size(); i++)
+
+        if (testCase == 0)
         {
-            System.out.println(strs.get(i));
+            // Large single threaded test case
+            HashSet<String> perms = permutations(1000000);
+            add(perms, struct, 500000, cmds);
+            containSuccess(perms, struct, 250000, cmds);
+            containFail(perms, struct, 250000, cmds);
+            removeSuccess(perms, struct, 250000, cmds);
+            removeFail(perms, struct, 250000, cmds);
+            System.out.println(500000 + 1000000);
+            System.out.println(perms.size());
+            for (int i = 0; i < perms.size(); i++)
+            {
+                System.out.println(strs.get(i));
+            }
+            for (int i = 0; i < cmds.size(); i++)
+            {
+                System.out.println(cmds.get(i));
+            }
         }
-        for (int i = 0; i < cmds.size(); i++)
+        else if (testCase == 1)
         {
-            System.out.println(cmds.get(i));
+            // Same as testCase 0 but dual threaded i.e. work divided equally among two files (SPLIT wrote in between them)
+            // Accuracy outputs may be incorrect due to concurrency
+            HashSet<String> perms = permutations(1000000);
+            add(perms, struct, 500000/2, cmds);
+            containSuccess(perms, struct, 250000/2, cmds);
+            containFail(perms, struct, 250000/2, cmds);
+            removeSuccess(perms, struct, 250000/2, cmds);
+            removeFail(perms, struct, 250000/2, cmds);
+            System.out.println(500000/2 + 1000000/2);
+            System.out.println(perms.size());
+            for (int i = 0; i < perms.size(); i++)
+            {
+                System.out.println(strs.get(i));
+            }
+            for (int i = 0; i < cmds.size(); i++)
+            {
+                System.out.println(cmds.get(i));
+            }
+            cmds.clear();
+            System.out.println("SPLIT");
+            add(perms, struct, 500000/2, cmds);
+            containSuccess(perms, struct, 250000/2, cmds);
+            containFail(perms, struct, 250000/2, cmds);
+            removeSuccess(perms, struct, 250000/2, cmds);
+            removeFail(perms, struct, 250000/2, cmds);
+            System.out.println(500000/2 + 1000000/2);
+            System.out.println(perms.size());
+            for (int i = 0; i < perms.size(); i++)
+            {
+                System.out.println(strs.get(i));
+            }
+            for (int i = 0; i < cmds.size(); i++)
+            {
+                System.out.println(cmds.get(i));
+            }
         }
     }
 }

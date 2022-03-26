@@ -67,7 +67,7 @@ public class TestThread extends Thread
                             actualS = false;
                         }
                     }
-                    if (cmdType.compareTo("ADD") != 0 && s != actualS)
+                    if (Tester.reporting && cmdType.compareTo("ADD") != 0 && s != actualS)
                     {
                         System.out.println("Error");
                     }
