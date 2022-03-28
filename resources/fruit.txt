@@ -1,0 +1,14 @@
+5
+2
+apple
+apples
+ADD
+0
+CONTAINS
+0
+CONTAINS
+1
+REMOVE
+0
+CONTAINS
+0
