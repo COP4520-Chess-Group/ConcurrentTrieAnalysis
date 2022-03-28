@@ -1,0 +1,5 @@
+# Build files ignore
+/build
+/build/
+*.class
+*.jar

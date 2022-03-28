@@ -1,5 +1,4 @@
 import java.io.FileReader;
-import java.nio.BufferOverflowException;
 import collection.ConcurrentTrie;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicLong;
@@ -8,7 +7,7 @@ import java.io.*;
 
 public class Tester
 {
-    public static ConcurrentTrie<Character, StringWrapper> t = new ConcurrentTrie();
+    public static ConcurrentTrie<Character, StringWrapper> t = new ConcurrentTrie<>();
     public static ConcurrentSkipListSet<String> s = new ConcurrentSkipListSet<>();
     public static boolean reporting = false;
     public static AtomicLong addTime = new AtomicLong(0);
