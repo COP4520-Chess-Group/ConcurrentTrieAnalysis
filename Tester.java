@@ -12,7 +12,7 @@ public class Tester
     public static void main(String [] args) throws IOException, InterruptedException
     {
         int threadCount;
-        BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("ConcurrentTrieAnalysis/resources/test.txt"));
         try{
             threadCount = Integer.parseInt(br.readLine());
             String files[] = new String[threadCount];
@@ -39,7 +39,7 @@ public class Tester
             br.close();
         }
 
-        br = new BufferedReader(new FileReader("test.txt"));
+        br = new BufferedReader(new FileReader("ConcurrentTrieAnalysis/resources/test.txt"));
         try{
             threadCount = Integer.parseInt(br.readLine());
             String files[] = new String[threadCount];
