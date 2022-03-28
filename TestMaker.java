@@ -55,9 +55,13 @@ public class TestMaker
         }
     }
 
-    public static void add(HashSet<String> perms, HashSet<String> struct, int count, ArrayList<String> cmds)
+    public static void add(HashSet<String> perms, HashSet<String> struct, int count, ArrayList<String> cmds, int skip)
     {
         Iterator<String> it = perms.iterator();
+        for (int i = 0; i < skip; i++)
+        {
+            it.next();
+        }
         String temp;
         while (count > 0)
         {
@@ -151,7 +155,7 @@ public class TestMaker
         {
             // Large single threaded test case
             HashSet<String> perms = permutations(1000000);
-            add(perms, struct, 500000, cmds);
+            add(perms, struct, 500000, cmds, 0);
             containSuccess(perms, struct, 250000, cmds);
             containFail(perms, struct, 250000, cmds);
             removeSuccess(perms, struct, 250000, cmds);
@@ -172,7 +176,7 @@ public class TestMaker
             // Same as testCase 0 but dual threaded i.e. work divided equally among two files (SPLIT wrote in between them)
             // Accuracy outputs may be incorrect due to concurrency
             HashSet<String> perms = permutations(1000000);
-            add(perms, struct, 500000/2, cmds);
+            add(perms, struct, 500000/2, cmds, 0);
             containSuccess(perms, struct, 250000/2, cmds);
             containFail(perms, struct, 250000/2, cmds);
             removeSuccess(perms, struct, 250000/2, cmds);
@@ -189,7 +193,7 @@ public class TestMaker
             }
             cmds.clear();
             System.out.println("SPLIT");
-            add(perms, struct, 500000/2, cmds);
+            add(perms, struct, 500000/2, cmds, 500000/2);
             containSuccess(perms, struct, 250000/2, cmds);
             containFail(perms, struct, 250000/2, cmds);
             removeSuccess(perms, struct, 250000/2, cmds);
