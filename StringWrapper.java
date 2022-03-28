@@ -15,10 +15,6 @@ class StringWrapper implements Iterable<Character>, Iterator<Character> {
         return this;
     }
 
-    private String getString() {
-        return this.string;
-    }
-
     @Override
     public boolean hasNext() {
         return tl.get() + 1 <= this.string.length();
@@ -29,5 +25,10 @@ class StringWrapper implements Iterable<Character>, Iterator<Character> {
         char c = this.string.charAt(tl.get());
         tl.set(tl.get() + 1);
         return c;
+    }
+
+    @Override
+    public String toString() {
+        return this.string;
     }
 }
