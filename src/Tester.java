@@ -1,90 +1,61 @@
-import java.io.FileReader;
-import collection.ConcurrentTrie;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicLong;
+import testing.StringTestHarness;
+import testing.TestHarness;
+import java.util.Scanner;
 
-import java.io.*;
 
-public class Tester
-{
-    public static ConcurrentTrie<Character, StringWrapper> t = new ConcurrentTrie<>();
-    public static ConcurrentSkipListSet<String> s = new ConcurrentSkipListSet<>();
-    public static boolean reporting = false;
-    public static AtomicLong addTime = new AtomicLong(0);
-    public static AtomicLong containsTime = new AtomicLong(0);
-    public static AtomicLong removeTime = new AtomicLong(0);
-    public static void main(String [] args) throws IOException, InterruptedException
-    {
-        int threadCount;
-        BufferedReader br = new BufferedReader(new FileReader("ConcurrentTrieAnalysis/resources/test.txt"));
-        try{
-            threadCount = Integer.parseInt(br.readLine());
-            String files[] = new String[threadCount];
-            for (int i = 0; i < threadCount; i++)
-            {
-                files[i] = br.readLine();
-            }
-            long startTime = System.nanoTime();
-            TestThread threads[] = new TestThread[threadCount];
-            for (int i = 0; i < threadCount; i++)
-            {
-                threads[i] = new TestThread();
-                threads[i].setName(files[i]);
-                threads[i].start();
-            }
-            for (int i = 0; i < threadCount; i++)
-            {
-                threads[i].join();
-            }
-            long stopTime = System.nanoTime();
-            double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("ConcurrentTrie Execution: ");
-            System.out.println("Total Time Elapsed: " + seconds);
-            seconds = addTime.get() / 1_000_000_000.0;
-            System.out.println("Time Adding: " + seconds);
-            seconds = containsTime.get() / 1_000_000_000.0;
-            System.out.println("Time Contains: " + seconds);
-            seconds = removeTime.get() / 1_000_000_000.0;
-            System.out.println("Time Removing: " + seconds);
-            addTime.set(0);
-            containsTime.set(0);
-            removeTime.set(0);
-        } finally {
-            br.close();
-        }
+public class Tester {
 
-        br = new BufferedReader(new FileReader("ConcurrentTrieAnalysis/resources/test.txt"));
-        try{
-            threadCount = Integer.parseInt(br.readLine());
-            String files[] = new String[threadCount];
-            for (int i = 0; i < threadCount; i++)
-            {
-                files[i] = br.readLine();
+    public static void main(String[] args) {
+        TestHarness test;
+        Scanner scanner = new Scanner(System.in);
+        boolean save = false;
+        outer: while (true) {
+            System.out.print("How long of a string would you like to test? ");
+            int len = scanner.nextInt();
+            System.out.print("How many strings in the list? ");
+            int num = scanner.nextInt();
+            System.out.println("How many contains runs? ");
+            int contains = scanner.nextInt();
+            System.out.println("How many removals? ");
+            int removes = scanner.nextInt();
+            testType: while (true) {
+                System.out.println(
+                        "Which structure would you like to test?:\n(1) SkipListSet\n(2) Trie\nEnter your number below (-1 to exit):");
+                int choice = scanner.nextInt();
+                boolean skipList;
+                if (choice == 1)
+                    skipList = true;
+                else if (choice == 2)
+                    skipList = false;
+                else if (choice < 0)
+                    return;
+                else {
+                    System.out.println("That was not an option.");
+                    continue;
+                }
+                
+                System.out.print("How many threads? ");
+                int threads = scanner.nextInt();
+
+                System.out.println("Running...");
+                test = new StringTestHarness.StringTestBuilder().stringLength(len).items(num).contains(contains)
+                        .remove(removes).build();
+                System.out.printf(
+                        "Ran %s on %d threads with %d character long strings with %d strings in the list, %d contains, and %d removals in %dms.\n",
+                        skipList ? "SkipList test" : "Trie test",
+                        threads,
+                        len,
+                        num,
+                        contains,
+                        removes,
+                        test.runTest(skipList, threads));
+                System.out.print("Would you like to save the length, number of items, and contains (1 - yes, 2 - no)?");
+                choice = scanner.nextInt();
+                if (choice == 1)
+                    continue testType;
+                else
+                    continue outer;
             }
-            long startTime = System.nanoTime();
-            SkipThread threads[] = new SkipThread[threadCount];
-            for (int i = 0; i < threadCount; i++)
-            {
-                threads[i] = new SkipThread();
-                threads[i].setName(files[i]);
-                threads[i].start();
-            }
-            for (int i = 0; i < threadCount; i++)
-            {
-                threads[i].join();
-            }
-            long stopTime = System.nanoTime();
-            double seconds = (double)(stopTime - startTime) / 1_000_000_000.0;
-            System.out.println("ConcurrentSkipListSet Execution: ");
-            System.out.println("Total Time Elapsed: " + seconds);
-            seconds = addTime.get() / 1_000_000_000.0;
-            System.out.println("Time Adding: " + seconds);
-            seconds = containsTime.get() / 1_000_000_000.0;
-            System.out.println("Time Contains: " + seconds);
-            seconds = removeTime.get() / 1_000_000_000.0;
-            System.out.println("Time Removing: " + seconds);
-        } finally {
-            br.close();
         }
     }
 }
